@@ -1,0 +1,133 @@
+<%- include('header.ejs') %>
+
+<body>
+
+        <!-- Begin page -->
+        <div class="accountbg" style="background: url('/interior-3778708_1920.jpg'); background-position: center; background-size: cover;"></div>
+        <div class="wrapper-page">
+                <div class="card card-pages shadow-none">
+    
+                    <div class="card-body">
+                        <div class="text-center m-t-0 m-b-15">
+                                 <div>
+                        <h2 class="logo">
+                            <span class="logo-dark">
+                                    <i class="mdi mdi-camera-control"></i> HOUSEKEEP
+                            </span>
+                        </h2>
+                    </div>
+                        </div>
+                        <h5 class="font-18 text-center">Sign in to continue.</h5>
+    
+                        <form class="form-horizontal m-t-30" onsubmit="login(event)">
+    
+                            <div class="form-group">
+                                <div class="col-12">
+                                        <label>Email Address</label>
+                                    <input class="form-control" type="email" required="" placeholder="Email" id="email">
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="col-12">
+                                        <label>Password</label>
+                                    <input class="form-control" type="password" required="" placeholder="Password" id="password">
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <div class="col-12">
+                                    <div class="checkbox checkbox-primary">
+                                            <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <label class="custom-control-label" for="customCheck1"> Remember me</label>
+                                                  </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                         <div class="form-group">
+                                <div class="col-12" id="err">
+                                    
+                                </div>
+                            </div>
+    
+                            <div class="form-group text-center m-t-20">
+                                <div class="col-12">
+                                    <button class="btn btn-primary btn-block btn-lg waves-effect waves-light" type="submit" id="sub_btn">Log In</button>
+                                </div>
+                            </div>
+    
+                            <div class="form-group row m-t-30 m-b-0">
+                                <div class="col-sm-7">
+                                    <a href="pages-recoverpw.html" class="text-muted"><i class="fa fa-lock m-r-5"></i> Forgot your password?</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+     </div>
+            </div>
+
+<%- include('footer2.ejs') %>
+
+<script>
+	const login = (event) => {
+
+    event.preventDefault();
+    document.getElementById("err").innerHTML = ""
+    	document.getElementById("sub_btn").disabled = true
+    document.getElementById("sub_btn").innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading`
+	
+    axios.post("/login", {
+    email: document.getElementById("email").value,
+    password: document.getElementById("password").value
+    }).then((res) => {
+    	console.log(res)
+    if(res.data.password) {
+    document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${res.data.password}`
+            
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    }
+    
+    else if(res.data.email) {
+    document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${res.data.email}`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    }
+    
+    else if(res.data.message && res.data.status == "success"){
+    document.getElementById("err").innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>Great!</strong> ${res.data.message}`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    location.href = res.data.path
+    }
+    })
+    .catch(err => {
+        if(err.response){
+          if(err.response.status == 401){
+           
+            document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${err.response.data.error}`
+                  
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+location.reload()
+          }
+          
+        }
+        else if(err){
+           document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> There Was an error processing your request please retry`
+                
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+        }
+      });
+    }
+</script>

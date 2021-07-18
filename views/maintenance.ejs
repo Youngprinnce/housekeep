@@ -1,0 +1,527 @@
+<%- include("header") %>
+ <!-- DataTables -->
+        <link href="/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-icons@1.3.3/dist/anticons.min.css">
+        <link href="/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<style>
+		div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0.5em;
+    display: block!important;
+    width: 80%!imortant;
+}
+.avatar {
+  border: 0.3rem solid rgba(#fff, 0.3);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  max-width: 6rem;
+}
+.file {
+    border: 1px solid #edf2f9;
+    border-radius: 4px;
+    padding: 10px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+.rounded {
+    border-radius: 0.25rem !important;
+}
+.media {
+    display: flex;
+    align-items: flex-start;
+}
+.avatar {
+    font-size: .875rem;
+    text-align: center;
+    background: #f1f2f3;
+    color: #fff;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+    vertical-align: middle;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.avatar-blue {
+    color: #3f87f5;
+    background: rgba(63,135,245,0.1);
+}
+.avatar.avatar-icon {
+    font-size: 16px;
+}
+</style>
+<%- include("nav") %>
+
+
+            <div class="wrapper">
+                
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="page-title-box">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <h4 class="page-title">Task</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                                        <li class="breadcrumb-item active">Task</li>
+                                    </ol>
+                                </div>
+                      			<div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between">
+                                            <div class="media align-items-center">
+                                                <!--<div class="avatar avatar-image mr-2">-->
+                                                <!--    <img src="<%= maintenance.img_url %>" alt="">-->
+                                                <!--</div>-->
+                                                <div class="m-l-10">
+                                                    <h4 class="m-b-0"><%= maintenance.title %></h4>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <% if(maintenance.status == "pending" || maintenance.status == "processing"){ %><span class="badge badge-danger"><%= maintenance.status %></span> <% } else if(maintenance.status == "in-progress"){ %><span class="badge badge-warning"><%= maintenance.status %></span> <% } else if(maintenance.status == "completed"){ %> <span class="badge badge-success"><%= maintenance.status %></span> <% } %>
+                                            </div>
+                                        </div>
+                                        <div class="m-t-20">
+                                            
+                                            <img class="img-thumbnail mb-2" alt="200x200" style="width: 200px; height: 200px;" src="<%= maintenance.img_url %>" data-holder-rendered="true">
+                                            <h6>Description:</h6>
+                                            <p><%= maintenance.description %></p>
+                                        </div>
+                                        <div class="d-md-flex m-t-30 align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center m-t-10">
+                                                <span class="text-dark font-weight-semibold m-r-10 m-b-5 font-weight-bold">Manager: </span>
+                                                <a class="m-r-5 ml-3" href="javascript:void(0);" data-toggle="tooltip" title="" data-original-title="<%= maintenance.flat.property.manager.firstName %> <%= maintenance.flat.property.manager.lastName %>">
+                                                    <div class="avatar avatar-image" style="width: 30px; height: 30px;">
+                                                        <img src="<%= maintenance.flat.property.manager.img_url %>" alt="<%= maintenance.flat.property.manager.firstName %> <%= maintenance.flat.property.manager.lastName %>">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="m-t-10">
+                                                <span class="font-weight-semibold m-r-10 text-dark font-weight-bold">Available Date: </span>
+                                                <span class="ml-2"><%= maintenance.available_date %></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-md-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <span class="text-dark font-weight-semibold m-r-10 m-b-5 font-weight-bold">Contractor: </span>
+                                                <a class="m-r-5 m-b-5 ml-3" href="javascript:void(0);" data-toggle="tooltip" title="" data-original-title="">
+                                                    <div class="avatar avatar-image" style="width: 30px; height: 30px;">
+                                                        
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="">
+                                                <span class="font-weight-semibold m-r-10 m-b-5 text-dark font-weight-bold">Available Time: </span>
+                                                <span class="ml-2"><%= maintenance.available_time %></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-md-flex align-items-center justify-content-between mt-2">
+                                            <div class="">
+                                                <span class="text-dark font-weight-semibold m-r-10 m-b-5 font-weight-bold">Property: </span>
+                                                    <span class="ml-2"><%= maintenance.flat.property.property_name %></span>
+                                            </div>
+                                            <div class="">
+                                                <span class="font-weight-semibold m-r-10 m-b-5 text-dark font-weight-bold">Flat Number: </span>
+                                                <span><%= maintenance.flat.flat_number %></span>
+                                            </div>
+                                        </div>
+                                        <div class="d-md-flex align-items-center justify-content-between mt-4">
+                                            <div class="">
+                                                <span class="text-dark font-weight-semibold m-r-10 m-b-5 font-weight-bold">Category: </span>
+                                                    <span class="ml-2"><%= maintenance.category.title %></span>
+                                            </div>
+                                            <div class="">
+                                                <span class="font-weight-semibold m-r-10 m-b-5 text-dark font-weight-bold">Priority: </span>
+                                                <span><%if(maintenance.priority.title == "Low"){ %><span class="badge badge-info"><%= maintenance.priority.title %></span><% }else if(maintenance.priority.title == "Medium"){ %> <span class="badge badge-warning"><%= maintenance.priority.title %></span><% }else if(maintenance.priority.title == "High"){ %><span class="badge badge-danger"><%= maintenance.priority.title %></span> <% }else { %> <span class="badge badge-primary"><%= maintenance.priority.title %></span><% } %></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="m-t-30 px-2">
+                                        <ul class="nav nav-tabs">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" data-toggle="tab" href="#project-details-tasks">Observation</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#project-details-comments">Purchases</a>
+                                            </li>
+                                             <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#project-details-issues">Issues</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content m-t-15 p-25">
+                                            <div class="tab-pane fade active show" id="project-details-tasks">
+                                           <% if(maintenance.observation){ %>
+                                           <h5><%= maintenance.observation.title %></h5>
+                                           <p><%= maintenance.observation.description %></p>
+                                           Total Purchase amount: &#8358;<%= maintenance.observation.payment_amount %>
+                                           <br />
+                                           <br />
+                                           <% if(maintenance.status == "pending"){%>
+                                           <button class="btn btn-info btn-sm mb-3" onclick="approve('<%= maintenance.id %>')">Approve</button>
+                                           <% } else { %>
+                                           <button class="btn btn-success btn-sm mb-3" disabled>Approved</button>
+                                           <% } %>
+                                           <% } else { %>
+                                           <img src="/image_emp.png" class="img mt-3 mb-1" style="height: 60px">
+                                           <p>No observation submitted yet</hp>
+                                           <% } %>
+                                            </div>
+                                            <div class="tab-pane fade" id="project-details-comments">
+                                                
+                                                     <% if(maintenance.observation){ %>
+                                                     <% if(maintenance.purchases.length > 0){ %>
+                                         <% maintenance.purchases.forEach(item => { %>
+                                         <div class="file" style="min-width: 200px;">
+                                         <div class="media align-items-center">
+                                                        <div class="avatar avatar-icon avatar-blue rounded m-r-15">
+                                                            <i class="fas fa-money-check-alt"></i>
+                                                        </div>
+                                                        <div class="ml-2">
+                                                            <h6 class="mb-0"><%= item.title %></h6>
+                                                            <span class="font-size-13 text-muted">&#8358;<%= item.payment_amount %></span>
+                                                        </div>
+                                                    </div>
+                                                </div>  
+                                                <% }) %>
+                                                <% } else{ %>
+                                                 <img src="/image_emp.png" class="img mt-3 mb-1" style="height: 60px">
+                                           <p>No purchase to be made</hp>
+                                                <% } %>
+                                           <% } else { %>
+                                           <img src="/image_emp.png" class="img mt-3 mb-1" style="height: 60px">
+                                           <p>No observation submitted yet</hp>
+                                           <% } %>
+                                            </div>
+                                             <div class="tab-pane fade" id="project-details-issues">
+                                                
+                                           
+                                                     <% if(maintenance.issues.length > 0){ %>
+                                         <% maintenance.issues.forEach(item => { %>
+                                        <h5>New Issue</h5>
+                                           <p class="mb-2"><%= item.title %></p>
+                                                <% }) %>
+                                                <% } else{ %>
+                                                 <img src="/image_emp.png" class="img mt-3 mb-1" style="height: 60px">
+                                           <p>No issues submitted</hp>
+                                                <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            <div class="col-md-4">
+                               <div class="card m-b-30">
+                                <div class="card-body">
+
+                                    <h4 class="mt-0 header-title mb-4">Recent Activity</h4>
+                                    <% if(maintenance.activities) {%>
+                                     <ol class="activity-feed mb-0" id="list_of_activities">
+                                        <% maintenance.activities.forEach(activity => { %>
+                                        <li class="feed-item">
+                                            <div class="feed-item-list">
+                                                <p class="text-muted mb-1"><%= moment(activity.createdAt).fromNow() %></p>
+                                                <p class="font-15 mt-0 mb-0"><%= activity.title %></p>
+                                            </div>
+                                        </li>
+                                        <% }) %>
+                                    </ol>
+                                    <% }else { %>
+                                    <img src="/image_emp.png" class="img mt-3 mb-1" style="height: 60px">
+                                           <p>No Activity yet</hp>
+                                    
+                                    <% } %>
+                                   
+
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                            </div> <!-- end row -->
+                        </div>
+                        <!-- end page-title -->
+
+                        
+                    </div>
+                    <!-- container-fluid -->
+
+                </div>
+                <!-- content -->
+
+        
+<%- include("footer") %>
+
+             <!-- Required datatable js -->
+        <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Buttons examples -->
+        <script src="/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/plugins/datatables/jszip.min.js"></script>
+        <script src="/plugins/datatables/pdfmake.min.js"></script>
+        <script src="/plugins/datatables/vfs_fonts.js"></script>
+        <script src="/plugins/datatables/buttons.html5.min.js"></script>
+        <script src="/plugins/datatables/buttons.print.min.js"></script>
+        <script src="/plugins/datatables/buttons.colVis.min.js"></script>
+        <!-- Responsive examples -->
+        <script src="/plugins/datatables/dataTables.responsive.min.js"></script>
+        <script src="/plugins/datatables/responsive.bootstrap4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+            
+         <script>
+     const sub = (event) => {event.preventDefault()
+    document.getElementById("err").innerHTML = ""
+  	document.getElementById("sub_btn").disabled = true
+    document.getElementById("sub_btn").innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading`
+	
+	
+		var fd = new FormData();
+		var file = $('#file')[0].files[0];
+		fd.append('img', file);
+		fd.append('fname', document.getElementById("fname").value)
+        fd.append('lname', document.getElementById("lname").value)
+		fd.append('email', document.getElementById("email").value)
+		fd.append('password', document.getElementById("password").value)
+    fd.append('phone', document.getElementById("phone").value)
+                            
+                     if(!fd.get("img").type.match(/image-*/)){
+             	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> please selecet an image file`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    }
+       else if(fd.get("img").size > 2000000){
+            	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> File size should not be greater than 2mb`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    }else{
+      axios.post('/add-manager',
+          fd, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+          }
+        ).then(function (data) {
+
+
+ if(data.data.message){
+	  document.getElementById("err").innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>Great!</strong> ${data.data.message}`
+      
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+	 location.reload()
+ }
+ else if(data.data.error){
+	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${data.data.error}`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+ }
+          
+        })
+        .catch(err => {
+        if(err.response){
+          if(err.response.status == 401){
+	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${err.response.data.error}`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+location.reload()
+          }
+          
+        }
+        else if(err){
+    document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> There Was an error processing your request please retry`
+    
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+          
+        }
+      });
+
+    
+    }
+
+}
+    
+    
+</script>
+<script>
+function trunc (title) {
+    var length = 20;
+    if (title.length > length) {
+       title = title.substring(0, length)+'...';
+    }
+    return title;
+}
+
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(trunc(fileName));
+});
+    
+$(document).ready(function() {
+        $('#datatable').DataTable({
+  "pagingType": "simple"
+} );
+
+    //Buttons examples
+    var table = $('#datatable-buttons').DataTable({
+        lengthChange: false,
+        buttons: ['copy', 'excel', 'pdf', 'colvis'],
+    pagingType: "simple"
+    });
+
+    table.buttons().container()
+        .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+} );
+
+
+var length = <%= maintenance.activities.length %>
+function fetchdata(){
+ $.ajax({
+  url: `/refresh-activities?id=${<%= maintenance.id %>}`,
+  type: 'get',
+  success: function(data){
+   // Perform operation on return value
+   if(data.length < length || data.length > length){
+    length = data.length
+   console.log(data);
+   let st = ""
+       data.forEach(row => {
+         st += `   <li class="feed-item">
+                                            <div class="feed-item-list">
+                                                <p class="text-muted mb-1">${ moment(row.createdAt).fromNow()} </p>
+                                                <p class="font-15 mt-0 mb-0">${row.title }</p>
+                                            </div>
+                                        </li> `
+       })
+   
+      document.getElementById("list_of_activities").innerHTML = st
+   }
+  },
+  complete:function(data){
+   setTimeout(fetchdata,500);
+  }
+ });
+}
+
+$(document).ready(function(){
+ setTimeout(fetchdata,500);
+});
+
+<% if(!maintenance.observation){ %>
+var opn = false
+function fetchob(){
+ $.ajax({
+  url: `/refresh-observation?id=${<%= maintenance.id %>}`,
+  type: 'get',
+  success: function(data){
+  console.log(data);
+   // Perform operation on return value
+   if(opn == false && data.observation.id){
+   opn = true
+   console.log(data);
+   let st = ""
+         st += `  <h5>${ data.observation.title}</h5>
+                                           <p>${data.observation.description}</p>
+                                           Total Purchase amount: &#8358;${ data.observation.payment_amount }
+                                           <br />
+                                           <br /> `
+   
+      document.getElementById("project-details-tasks").innerHTML = st
+      
+      if(data.purchases.length > 0) {
+       let st2 = ""
+       data.purchases.forEach(item => {
+         st2 += `   <div class="file" style="min-width: 200px;">
+                                         <div class="media align-items-center">
+                                                        <div class="avatar avatar-icon avatar-blue rounded m-r-15">
+                                                            <i class="fas fa-money-check-alt"></i>
+                                                        </div>
+                                                        <div class="ml-2">
+                                                            <h6 class="mb-0">${item.title }</h6>
+                                                            <span class="font-size-13 text-muted">&#8358;${item.payment_amount }</span>
+                                                        </div>
+                                                    </div>
+                                                </div>     `
+       })
+   
+      document.getElementById("project-details-commments").innerHTML = st2
+      }else if(data.purchases.length < 1) {
+      let st2 = `  <img src="/image_emp.png" class="img mt-3 mb-1" style="height: 60px">
+                                           <p>No purchase to be made</hp>
+      
+      `
+      document.getElementById("project-details-commments").innerHTML = st2
+      }
+   }
+  },
+  complete: function(data){
+   setTimeout(fetchob,500);
+  }
+ });
+}
+
+ setTimeout(fetchob,500);
+
+
+<% } %>
+
+function approve(id) {
+ Swal.fire({
+  title: 'Are you sure?',
+  text: "You are about to approve the task",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, approve!'
+}).then((result) => {
+  if (result.isConfirmed) {
+      
+    axios.post("/approve-task", {
+        id: id
+    }).then(data => {
+         if(data.data.message){
+	  Swal.fire(
+      'Success!',
+      data.data.message,
+      'success'
+    )
+	 location.reload()
+ }
+ else if(data.data.error){
+   Swal.fire(
+      'Re Activated!',
+      data.data.error,
+      'error'
+    )
+ }
+          
+    })
+   
+  }
+})   
+}        </script>

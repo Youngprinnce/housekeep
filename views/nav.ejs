@@ -1,0 +1,216 @@
+<body>
+
+    <div class="header-bg">
+        <!-- Navigation Bar-->
+        <header id="topnav">
+            <div class="topbar-main">
+                <div class="container-fluid">
+
+                    <!-- Logo-->
+                    <div>
+                        <a href="/" class="logo">
+                            <span class="logo-light">
+                                    <i class="mdi mdi-camera-control"></i> HOUSEKEEP
+                            </span>
+                        </a>
+                    </div>
+                    <!-- End Logo-->
+
+                    <div class="menu-extras topbar-custom navbar p-0">
+                        <ul class="list-inline d-none d-lg-block mb-0">
+                            <li class="hide-phone app-search float-left">
+                                <form role="search" class="app-search">
+                                    <div class="form-group mb-0">
+                                        <input type="text" class="form-control" placeholder="Search..">
+                                        <button type="submit"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </form>
+                            </li>
+                        </ul>
+
+                        <ul class="navbar-right ml-auto list-inline float-right mb-0">
+                            <!-- language-->
+                            <!--<li class="dropdown notification-list list-inline-item d-none d-md-inline-block">-->
+                            <!--    <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">-->
+                            <!--        <img src="assets/images/flags/us_flag.jpg" class="mr-2" height="12" alt="" /> English <span class="mdi mdi-chevron-down"></span>-->
+                            <!--    </a>-->
+                            <!--    <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated language-switch">-->
+                            <!--        <a class="dropdown-item" href="#"><img src="assets/images/flags/french_flag.jpg" alt="" height="16" /><span> French </span></a>-->
+                            <!--        <a class="dropdown-item" href="#"><img src="assets/images/flags/spain_flag.jpg" alt="" height="16" /><span> Spanish </span></a>-->
+                            <!--        <a class="dropdown-item" href="#"><img src="assets/images/flags/russia_flag.jpg" alt="" height="16" /><span> Russian </span></a>-->
+                            <!--        <a class="dropdown-item" href="#"><img src="assets/images/flags/germany_flag.jpg" alt="" height="16" /><span> German </span></a>-->
+                            <!--        <a class="dropdown-item" href="#"><img src="assets/images/flags/italy_flag.jpg" alt="" height="16" /><span> Italian </span></a>-->
+                            <!--    </div>-->
+                            <!--</li>-->
+
+                            <!-- full screen -->
+                            <!--<li class="dropdown notification-list list-inline-item d-none d-md-inline-block">-->
+                            <!--    <a class="nav-link waves-effect" href="#" id="btn-fullscreen">-->
+                            <!--        <i class="mdi mdi-arrow-expand-all noti-icon"></i>-->
+                            <!--    </a>-->
+                            <!--</li>-->
+
+                            <!-- notification -->
+                            <% if(typeof tasks != 'undefined'){ %>
+                            <li class="dropdown notification-list list-inline-item">
+                                <a class="nav-link dropdown-toggle arrow-none waves-effect" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                    <i class="mdi mdi-bell-outline noti-icon"></i>
+                                    <span class="badge badge-pill badge-danger noti-icon-badge"><%= pending.length %></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-animated dropdown-menu-lg px-1">
+                                    <!-- item-->
+                                    <h6 class="dropdown-item-text">
+                                            Tasks
+                                        </h6>
+                                    <div class="slimscroll notification-item-list">
+                                        <!-- item-->
+                                        <% pending.forEach((task, index) => { %>
+                                         <% if(index < 5){ %>
+                                        <a href="/tasks/<%= task.id %>" class="dropdown-item notify-item active">
+                                            <div class="notify-icon bg-warning"><i class="mdi mdi-cart-outline"></i></div>
+                                            <p class="notify-details"><b>New Task</b><span class="text-muted"><%= task.title %></span></p>
+                                        </a>
+                                        <% } %>
+                                        <%  }) %>
+                                    </div>
+                                    <!-- All-->
+                                    <a href="/tasks" class="dropdown-item text-center notify-all text-primary">
+                                            View all <i class="fi-arrow-right"></i>
+                                        </a>
+                                </div>
+                            </li>
+
+<% } %>
+                            <li class="dropdown notification-list list-inline-item">
+                                <div class="dropdown notification-list nav-pro-img">
+                                    <a class="dropdown-toggle nav-link arrow-none nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                        <img src="<%= user.img_url %>" alt="user" class="rounded-circle">
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                                        <!-- item-->
+                                        <!--<a class="dropdown-item" href="#"><i class="mdi mdi-account-circle"></i> Profile</a>-->
+                                        <!--<a class="dropdown-item" href="#"><i class="mdi mdi-wallet"></i> My Wallet</a>-->
+                                        <!--<a class="dropdown-item d-block" href="#"><span class="badge badge-success float-right">11</span><i class="mdi mdi-settings"></i> Settings</a>-->
+                                        <!--<a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline"></i> Lock screen</a>-->
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-danger" href="/logout"><i class="mdi mdi-power text-danger"></i> Logout</a>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <li class="menu-item dropdown notification-list list-inline-item">
+                                <!-- Mobile menu toggle-->
+                                <a class="navbar-toggle nav-link">
+                                    <div class="lines">
+                                        <span></span>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </a>
+                                <!-- End mobile menu toggle-->
+                            </li>
+
+                        </ul>
+
+                    </div>
+                    <!-- end menu-extras -->
+
+                    <div class="clearfix"></div>
+
+                </div>
+                <!-- end container -->
+            </div>
+            <!-- end topbar-main -->
+
+            <!-- MENU Start -->
+            <div class="navbar-custom">
+                <div class="container-fluid">
+
+                    <div id="navigation">
+
+                        <!-- Navigation Menu-->
+                        <ul class="navigation-menu">
+
+                            <li class="has-submenu">
+                                <a href="/dash"><i class="icon-accelerator"></i> Dashboard</a>
+                            </li>
+
+                       		<li class="has-submenu">
+                                <a href="/properties"><i class="icon-home"></i> Properties</a>
+                            </li>
+                        
+                        <li class="has-submenu">
+                                <a href="/flats"><i class="icon-home"></i> Flats</a>
+                            </li>
+                              <li class="has-submenu">
+                                <a href="#"><i class="mdi mdi-briefcase-plus-outline"></i> Tasks <i class="mdi mdi-chevron-down mdi-drop"></i></a>
+                                  <ul class="submenu">
+                                            <li><a href="/tasks">Tasks</a></li>
+                                            <li><a href="/completed">Completed</a></li>
+                                    </ul>
+                            </li>
+
+                        
+                            <li class="has-submenu">
+                                <a href="#"><i class="icon-life-buoy"></i> Users <i class="mdi mdi-chevron-down mdi-drop"></i></a>
+                                  <ul class="submenu">
+                                            <li><a href="/tenants">Tenants</a></li>
+                                            <li><a href="/managers">Managers</a></li>
+                                            <li><a href="/contractors">Contractors</a></li>
+                                    </ul>
+                            </li>
+                        
+                        <li class="has-submenu">
+                                <a href="#"><i class="icon-life-buoy"></i> Categories <i class="mdi mdi-chevron-down mdi-drop"></i></a>
+                                  <ul class="submenu">
+                                            <li><a href="/priorities">Priorities</a></li>
+                                            <li><a href="/categories">Categories</a></li>
+                                    </ul>
+                            </li>
+                            <li class="has-submenu">
+                                <a href="/general-tasks"><i class="icon icon-clock"></i> General Schedules</a>
+                            </li>
+
+                           
+
+                            <!--<li class="has-submenu">-->
+                            <!--    <a href="#"><i class="icon-paper-sheet"></i> Pages <i class="mdi mdi-chevron-down mdi-drop"></i></a>-->
+                            <!--    <ul class="submenu megamenu">-->
+
+                            <!--        <li>-->
+                            <!--            <ul>-->
+                            <!--                <li><a href="pages-pricing.html">Pricing</a></li>-->
+                            <!--                <li><a href="pages-invoice.html">Invoice</a></li>-->
+                            <!--                <li><a href="pages-timeline.html">Timeline</a></li>-->
+                            <!--                <li><a href="pages-faqs.html">FAQs</a></li>-->
+                            <!--                <li><a href="pages-maintenance.html">Maintenance</a></li>-->
+                            <!--                <li><a href="pages-comingsoon.html">Coming Soon</a></li>-->
+                            <!--                <li><a href="pages-starter.html">Starter Page</a></li>-->
+                            <!--            </ul>-->
+                            <!--        </li>-->
+                            <!--        <li>-->
+                            <!--            <ul>-->
+                            <!--                <li><a href="pages-login.html">Login</a></li>-->
+                            <!--                <li><a href="pages-register.html">Register</a></li>-->
+                            <!--                <li><a href="pages-recoverpw.html">Recover Password</a></li>-->
+                            <!--                <li><a href="pages-lock-screen.html">Lock Screen</a></li>-->
+                            <!--                <li><a href="pages-404.html">Error 404</a></li>-->
+                            <!--                <li><a href="pages-500.html">Error 500</a></li>-->
+                            <!--            </ul>-->
+                            <!--        </li>-->
+                            <!--    </ul>-->
+                            <!--</li>-->
+
+                        </ul>
+                        <!-- End navigation menu -->
+                    </div>
+                    <!-- end #navigation -->
+                </div>
+                <!-- end container -->
+            </div>
+            <!-- end navbar-custom -->
+        </header>
+        <!-- End Navigation Bar-->
+
+    </div>
+    <!-- header-bg -->

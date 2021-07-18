@@ -1,0 +1,334 @@
+<%- include("header") %>
+ <!-- DataTables -->
+        <link href="/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Responsive datatable examples -->
+        <link href="/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<style>
+		div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0.5em;
+    display: block!important;
+    width: 80%!imortant;
+}
+.avatar {
+  border: 0.3rem solid rgba(#fff, 0.3);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  max-width: 6rem;
+}
+</style>
+<%- include("nav") %>
+
+
+            <div class="wrapper">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="page-title-box">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <h4 class="page-title">Tasks</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                                        <li class="breadcrumb-item active">Completed Tasks</li>
+                                    </ol>
+                                </div>
+                              <div class="col-sm-6 col-xl-3 mt-4">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-account-multiple-outline bg-primary  text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-16">Completed Tasks</h5>
+                                    </div>
+                                    <h3 class="mt-4"><%= completed.length %></h3>
+                  
+                                   
+                                </div>
+                            </div>
+                        </div>
+                             <div class="col-sm-12">
+                                <div class="card m-b-30 px-1">
+                                    <div class="card-body px-1">
+        
+                                        <!--<h4 class="mt-0 header-title">Default Datatable</h4>-->
+                                        <!--<p class="sub-title">DataTables has most features enabled by-->
+                                        <!--    default, so all you need to do to use it with your own tables is to call-->
+                                        <!--    the construction function: <code>$().DataTable();</code>.-->
+                                        <!--</p>-->
+        
+                                    <% if(completed.length > 0){ %>
+                                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>Title</th>
+                                                <th>Property</th>
+                                                <th>Flat Number</th>
+                                                <th>Cost</th>
+                                                <th>Due Date</th>
+                                            	<th>Priority</th>
+                                                <th>Status</th>
+
+                                            </tr>
+                                            </thead>
+        
+        
+                                            <tbody>
+                                            <% completed.forEach(maint => { %>
+                                            <tr>
+                                                <td><%= maint.title %></td>
+                                           		<td><%= maint.flat.property.property_name %></td>
+                                                <td><%= maint.flat.flat_number %></td>
+                                                <td>&#x20A6; <% if(maint.observation){ %><%= maint.observation.payment_amount %> <% } else { %>0<% } %></td>
+                                                <td><%= maint.available_date %> <%= maint.available_time %></td>
+                                            <td><center><span class="text-center"><%if(maint.priority.title == "Low"){ %><span class="badge badge-info"><%= maint.priority.title %></span><% }else if(maint.priority.title == "Medium"){ %> <span class="badge badge-warning"><%= maint.priority.title %></span><% }else if(maint.priority.title == "High"){ %><span class="badge badge-danger"><%= maint.priority.title %></span> <% }else { %> <span class="badge badge-primary"><%= maint.priority.title %></span><% } %></span></center></td>
+                                            <td><center><span class="text-center"><%= maint.status %></span></center></td>
+                                            	
+                                            </tr>
+                                            <% }) %>
+                                            </tbody>
+                                        </table>
+        								<% }else { %>
+                                              <div class="col-md-12 pt-3 mt-4">
+                            <center class="mt-4">
+                            <img src="/image_emp.png" class="img mt-3 mb-1" style="height: 200px">
+                            <p class="pt-1">No Tasks yet</p>
+                            </center>
+                                        </div>
+                                    <% } %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            </div> <!-- end row -->
+                        </div>
+                        <!-- end page-title -->
+
+                        
+                    </div>
+                    <!-- container-fluid -->
+
+                </div>
+                <!-- content -->
+
+            
+               <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <form class="modal-content" onsubmit="sub(event)">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title mt-0">Add Manager</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="card-body">
+        
+                                        <p class="sub-title">Complete the form to add a new manager</p>
+        
+                                        
+                                        <div class="form-group row">
+                                            <label for="location" class="col-sm-12 pb-1 col-form-label">First Name</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="fname" required>
+                                            </div>
+                                        </div>
+                                                    
+                                                                <div class="form-group row">
+                                            <label for="location" class="col-sm-12 pb-1 col-form-label">Last Name</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="lname" required>
+                                            </div>
+                                        </div>
+                                                    
+                                                                <div class="form-group row">
+                                            <label for="location" class="col-sm-12 pb-1 col-form-label">Phone Number</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="phone" required>
+                                            </div>
+                                        </div>
+                                                                
+                                                                                        <div class="form-group row">
+                                            <label for="location" class="col-sm-12 pb-1 col-form-label">Email Address</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="email" id="email" required>
+                                            </div>
+                                        </div>
+                                             
+                                                                
+                                             <div class="form-group row">
+                                            <label for="location" class="col-sm-12 pb-1 col-form-label">Password</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="password" id="password" required>
+                                            </div>
+                                        </div>
+                                                                
+                                              <div class="form-group row">
+                                            <label for="img" class="col-sm-2 col-form-label">Manager Image</label>
+                                            <div class="col-sm-12">
+                                               <div class="custom-file">
+    											<input type="file" class="custom-file-input" accept="image/*" id="file" required>
+    											<label class="custom-file-label" for="customFile">Choose file</label>
+ 											 </div>
+                                            </div>
+                                                                </div>
+                                                    
+                                        <div class="form-group row">
+                                        <div class="col-sm-12" id="err">
+                                                            </div>
+                                        
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary" id="sub_btn">Submit</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                        </div>
+                                                            </form>
+													<!-- /.modal-content -->
+                                                    </div><!-- /.modal-dialog -->
+                                                </div><!-- /.modal -->
+
+<%- include("footer") %>
+
+             <!-- Required datatable js -->
+        <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Buttons examples -->
+        <script src="/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/plugins/datatables/jszip.min.js"></script>
+        <script src="/plugins/datatables/pdfmake.min.js"></script>
+        <script src="/plugins/datatables/vfs_fonts.js"></script>
+        <script src="/plugins/datatables/buttons.html5.min.js"></script>
+        <script src="/plugins/datatables/buttons.print.min.js"></script>
+        <script src="/plugins/datatables/buttons.colVis.min.js"></script>
+        <!-- Responsive examples -->
+        <script src="/plugins/datatables/dataTables.responsive.min.js"></script>
+        <script src="/plugins/datatables/responsive.bootstrap4.min.js"></script>
+            
+         <script>
+     const sub = (event) => {event.preventDefault()
+    document.getElementById("err").innerHTML = ""
+  	document.getElementById("sub_btn").disabled = true
+    document.getElementById("sub_btn").innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading`
+	
+	
+		var fd = new FormData();
+		var file = $('#file')[0].files[0];
+		fd.append('img', file);
+		fd.append('fname', document.getElementById("fname").value)
+        fd.append('lname', document.getElementById("lname").value)
+		fd.append('email', document.getElementById("email").value)
+		fd.append('password', document.getElementById("password").value)
+    fd.append('phone', document.getElementById("phone").value)
+                            
+                     if(!fd.get("img").type.match(/image-*/)){
+             	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> please selecet an image file`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    }
+       else if(fd.get("img").size > 2000000){
+            	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> File size should not be greater than 2mb`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    }else{
+      axios.post('/add-manager',
+          fd, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+          }
+        ).then(function (data) {
+
+
+ if(data.data.message){
+	  document.getElementById("err").innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>Great!</strong> ${data.data.message}`
+      
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+	 location.reload()
+ }
+ else if(data.data.error){
+	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${data.data.error}`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+ }
+          
+        })
+        .catch(err => {
+        if(err.response){
+          if(err.response.status == 401){
+	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${err.response.data.error}`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+location.reload()
+          }
+          
+        }
+        else if(err){
+    document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> There Was an error processing your request please retry`
+    
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+          
+        }
+      });
+
+    
+    }
+
+}
+    
+    
+</script>
+<script>
+function trunc (title) {
+    var length = 20;
+    if (title.length > length) {
+       title = title.substring(0, length)+'...';
+    }
+    return title;
+}
+
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(trunc(fileName));
+});
+    
+$(document).ready(function() {
+        $('#datatable').DataTable({
+  "pagingType": "simple",
+  "dom": 'Bfrtip',
+  "buttons": [ 'csv', 'excel', 'pdf', 'print']
+} );
+
+    //Buttons examples
+    var table = $('#datatable-buttons').DataTable({
+        lengthChange: false,
+        buttons: ['copy', 'excel', 'pdf', 'colvis'],
+    pagingType: "simple"
+    });
+
+    table.buttons().container()
+        .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+} );
+            </script>

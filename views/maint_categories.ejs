@@ -1,0 +1,468 @@
+<%- include("header") %>
+ <!-- DataTables -->
+        <link href="/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+        <link href="/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- Responsive datatable examples -->
+        <link href="/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+<style>
+		div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0.5em;
+    display: block!important;
+    width: 80%!imortant;
+}
+</style>
+<%- include("nav") %>
+
+
+            <div class="wrapper">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="page-title-box">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <h4 class="page-title">Maintenance Categories</h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                                        <li class="breadcrumb-item active">Categories</li>
+                                    </ol>
+                                </div>
+                              <div class="col-sm-6 col-xl-3 mt-4">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-home-group bg-primary  text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-16">Categories</h5>
+                                    </div>
+                                    <h3 class="mt-4"><%= categories.length %></h3>
+                                
+                                  <button class="btn btn-warning btn-sm float-right" data-toggle="modal" data-target=".bs-example-modal-center">Add New Category</button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                             <div class="col-sm-12">
+                                <div class="card m-b-30 px-1">
+                                    <div class="card-body px-1">
+        
+                                    <% if(categories.length > 0){ %>
+                                        <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                                            <thead>
+                                            <tr>
+                                                <th>Category Title</th>
+                                                <th>Icon</th>
+                                            	<th>Action</th>
+
+                                            </tr>
+                                            </thead>
+        
+        
+                                            <tbody>
+                                            <% categories.forEach(cat => { %>
+                                            <tr>
+                                                <td><%= cat.title %></td>
+                                                <td><img src="<%= cat.img_url %>" class="avatar img img-sm"/> </td>
+                                            <td>
+                                                <button type="button" class="btn btn-primary" onclick="openedit('<%= cat.id %>','<%= cat.title %>','<%= cat.description %>')">Edit</button>
+                                               </td>
+                                            </tr>
+                                            <% }) %>
+                                            </tbody>
+                                        </table>
+        								<% }else { %>
+                                              <div class="col-md-12 pt-3 mt-4">
+                            <center class="mt-4">
+                            <img src="/image_emp.png" class="img mt-3 mb-1" style="height: 200px">
+                            <p class="pt-1">No Category available</p> <button class="mb-5 btn btn-warning" data-toggle="modal" data-target=".bs-example-modal-center">Add Category</button>
+                            </center>
+                                        </div>
+                                    <% } %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            </div> <!-- end row -->
+                        </div>
+                        <!-- end page-title -->
+
+                        
+                    </div>
+                    <!-- container-fluid -->
+
+                </div>
+                <!-- content -->
+
+            
+               <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <form class="modal-content" onsubmit="sub(event)">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title mt-0">Add Category</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="card-body">
+        
+                                        <p class="sub-title">Complete the form to add a new flat under a Category</p>
+        
+                                        
+                                        <div class="form-group row">
+                                            <label for="location" class="col-sm-12 pb-1 col-form-label">Category Title</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="title" required>
+                                            </div>
+                                        </div>
+                                                                
+                                                                
+                                            <div class="form-group row">
+                                            <label for="location" class="col-sm-12 pb-1 col-form-label">Category Description</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="desc" required>
+                                            </div>
+                                        </div>                    
+                                                <div class="form-group row">
+                                            <label for="img" class="col-sm-2 col-form-label">Category Icon</label>
+                                            <div class="col-sm-12">
+                                               <div class="custom-file">
+    											<input type="file" class="custom-file-input" accept="image/*" id="file" required>
+    											<label class="custom-file-label" for="customFile">Choose file</label>
+ 											 </div>
+                                            </div>
+                                                                </div>
+                                                           <div class="form-group row">
+                                        <div class="col-sm-12" id="err">
+                                                            </div>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary" id="sub_btn">Submit</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                        </div>
+                                                            </form>
+													<!-- /.modal-content -->
+                                                    </div><!-- /.modal-dialog -->
+                                                </div><!-- /.modal -->
+
+               <div class="modal fade edit-modal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <form class="modal-content" onsubmit="edit(event)">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title mt-0">Edit Category</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="card-body">
+        
+                                        <p class="sub-title">Complete the form to edit a Category</p>
+        
+                                        
+                                        <div class="form-group row">
+                                            <label for="location" class="col-sm-12 pb-1 col-form-label">Category Title</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="edit_title" required>
+                                            </div>
+                                        </div>
+                                                                
+                                                                
+                                            <div class="form-group row">
+                                            <label for="location" class="col-sm-12 pb-1 col-form-label">Category Description</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="edit_desc" required>
+                                            </div>
+                                        </div>   
+                                        <div class="form-group row">
+                                            <label for="img" class="col-sm-2 col-form-label">Category Icon</label>
+                                            <div class="col-sm-12">
+                                               <div class="custom-file">
+    											<input type="file" class="custom-file-input" accept="image/*" id="edit_file">
+    											<label class="custom-file-label" for="customFile">Choose file</label>
+ 											 </div>
+                                            </div>                  
+                                               <input type="hidden" id="cid" />
+                                                                </div>
+                                                           <div class="form-group row">
+                                        <div class="col-sm-12" id="edit_err">
+                                                            </div>
+                                                                </div>
+                                                            </div>
+                                                        
+                                                        <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary" id="edit_btn">Submit</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                        </div>
+                                                            </form>
+													<!-- /.modal-content -->
+                                                    </div><!-- /.modal-dialog -->
+                                                </div><!-- /.modal -->
+<%- include("footer") %>
+
+             <!-- Required datatable js -->
+        <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+        <!-- Buttons examples -->
+        <script src="/plugins/datatables/dataTables.buttons.min.js"></script>
+        <script src="/plugins/datatables/buttons.bootstrap4.min.js"></script>
+        <script src="/plugins/datatables/jszip.min.js"></script>
+        <script src="/plugins/datatables/pdfmake.min.js"></script>
+        <script src="/plugins/datatables/vfs_fonts.js"></script>
+        <script src="/plugins/datatables/buttons.html5.min.js"></script>
+        <script src="/plugins/datatables/buttons.print.min.js"></script>
+        <script src="/plugins/datatables/buttons.colVis.min.js"></script>
+        <!-- Responsive examples -->
+        <script src="/plugins/datatables/dataTables.responsive.min.js"></script>
+        <script src="/plugins/datatables/responsive.bootstrap4.min.js"></script>
+            
+         <script>
+              function openedit(id, title, desc) {
+    document.getElementById("edit_title").value = title
+    document.getElementById("edit_desc").value = desc
+    document.getElementById("cid").value = id
+    $(".edit-modal").modal();
+}
+
+    const edit = (event) => {event.preventDefault()
+    document.getElementById("edit_err").innerHTML = ""
+  	document.getElementById("edit_btn").disabled = true
+    document.getElementById("edit_btn").innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading`
+
+      if (document.getElementById("edit_file").value == "") {
+         axios.post('/edit-category',
+          { 
+              id: document.getElementById("cid").value,
+              title: document.getElementById("edit_title").value,
+              desc: document.getElementById("edit_desc").value
+          }
+        ).then(function (data) {
+
+
+ if(data.data.message){
+	  document.getElementById("edit_err").innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>Great!</strong> ${data.data.message}`
+      
+  	document.getElementById("edit_btn").disabled = false
+    document.getElementById("edit_btn").innerHTML = "Edit"
+	 location.reload()
+ }
+ else if(data.data.error){
+	document.getElementById("edit_err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${data.data.error}`
+          
+  	document.getElementById("edit_btn").disabled = false
+    document.getElementById("edit_btn").innerHTML = "Edit"
+ }
+          
+        })
+        .catch(err => {
+        if(err.response){
+          if(err.response.status == 401){
+	document.getElementById("edit_err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${err.response.data.error}`
+          
+  	document.getElementById("edit_btn").disabled = false
+    document.getElementById("edit_btn").innerHTML = "Edit"
+location.reload()
+          }
+          
+        }
+        else if(err){
+    document.getElementById("edit_err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> There Was an error processing your request please retry`
+    
+          
+  	document.getElementById("edit_btn").disabled = false
+    document.getElementById("edit_btn").innerHTML = "Edit"
+          
+        }
+      });
+  }	else{
+	
+		var fd = new FormData();
+		var file = $('#edit_file')[0].files[0];
+		fd.append('img', file);
+		fd.append('title', document.getElementById("edit_title").value)
+        fd.append('desc', document.getElementById("edit_desc").value)
+    fd.append('id', document.getElementById("cid").value)
+                            
+                     if(!fd.get("img").type.match(/image-*/)){
+             	document.getElementById("edit_err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> please select an image file`
+          
+  	document.getElementById("edit_btn").disabled = false
+    document.getElementById("edit_btn").innerHTML = "Edit"
+    }
+       else if(fd.get("img").size > 2000000){
+            	document.getElementById("edit_err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> File size should not be greater than 2mb`
+          
+  	document.getElementById("edit_btn").disabled = false
+    document.getElementById("edit_btn").innerHTML = "Edit"
+    }else{
+      axios.post('/edit-category',
+          fd, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+          }
+        ).then(function (data) {
+
+
+ if(data.data.message){
+	  document.getElementById("edit_err").innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>Great!</strong> ${data.data.message}`
+      
+  	document.getElementById("edit_btn").disabled = false
+    document.getElementById("edit_btn").innerHTML = "Edit"
+	 location.reload()
+ }
+ else if(data.data.error){
+	document.getElementById("edit_err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${data.data.error}`
+          
+  	document.getElementById("edit_btn").disabled = false
+    document.getElementById("edit_btn").innerHTML = "Edit"
+ }
+          
+        })
+        .catch(err => {
+        if(err.response){
+          if(err.response.status == 401){
+	document.getElementById("edit_err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${err.response.data.error}`
+          
+  	document.getElementById("edit_btn").disabled = false
+    document.getElementById("edit_btn").innerHTML = "Edit"
+location.reload()
+          }
+          
+        }
+        else if(err){
+    document.getElementById("edit_err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> There Was an error processing your request please retry`
+    
+          
+  	document.getElementById("edit_btn").disabled = false
+    document.getElementById("edit_btn").innerHTML = "Edit"
+          
+        }
+      });
+
+    
+    }
+}
+}
+
+     const sub = (event) => {event.preventDefault()
+    document.getElementById("err").innerHTML = ""
+  	document.getElementById("sub_btn").disabled = true
+    document.getElementById("sub_btn").innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading`
+	
+	
+		var fd = new FormData();
+		var file = $('#file')[0].files[0];
+		fd.append('img', file);
+		fd.append('title', document.getElementById("title").value)
+      	fd.append('desc', document.getElementById("desc").value)
+                            
+                     if(!fd.get("img").type.match(/image-*/)){
+             	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> please selecet an image file`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    }
+       else if(fd.get("img").size > 2000000){
+            	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> File size should not be greater than 2mb`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    }else{
+      axios.post('/add-category',
+          fd, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+          }
+        ).then(function (data) {
+
+
+ if(data.data.message){
+	  document.getElementById("err").innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>Great!</strong> ${data.data.message}`
+      
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+	 location.reload()
+ }
+ else if(data.data.error){
+	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${data.data.error}`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+ }
+          
+        })
+        .catch(err => {
+        if(err.response){
+          if(err.response.status == 401){
+	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${err.response.data.error}`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+location.reload()
+          }
+          
+        }
+        else if(err){
+    document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> There Was an error processing your request please retry`
+    
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+          
+        }
+      });
+
+    
+    }
+
+}
+    
+    // Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(trunc(fileName));
+});
+    
+$(document).ready(function() {
+        $('#datatable').DataTable({
+  "pagingType": "simple"
+} );
+
+    //Buttons examples
+    var table = $('#datatable-buttons').DataTable({
+        lengthChange: false,
+        buttons: ['copy', 'excel', 'pdf', 'colvis'],
+    pagingType: "simple"
+    });
+
+    table.buttons().container()
+        .appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+} );
+            </script>

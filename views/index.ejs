@@ -1,0 +1,227 @@
+<%- include('header.ejs') %>
+
+	<%- include('nav.ejs') %>
+
+        <div class="wrapper">
+            <!-- Start content -->
+            <div class="content">
+                <div class="container-fluid">
+                    <div class="page-title-box">
+                        <div class="row align-items-center">
+                            <div class="col-sm-6">
+                                <h4 class="page-title">Dashboard</h4>
+                            </div>
+                            <div class="col-sm-6">
+                                <ol class="breadcrumb float-right">
+                                    <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                                    <li class="breadcrumb-item active">Dashboard</li>
+                                </ol>
+                            </div>
+                        </div>
+                        <!-- end row -->
+                    </div>
+                    <!-- end page-title -->
+
+                    <div class="row">
+
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-home-floor-0 bg-primary  text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-16">Properties</h5>
+                                    </div>
+                                    <h3 class="mt-4"><%= properties.length %></h3>
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-briefcase-check bg-success text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-16">Total Flats</h5>
+                                    </div>
+                                    <h3 class="mt-4"><%= flats.length %></h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-account-group bg-warning text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-16">Total Tenants</h5>
+                                    </div>
+                                    <h3 class="mt-4"><%= users.length %></h3>
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card">
+                                <div class="card-heading p-4">
+                                    <div class="mini-stat-icon float-right">
+                                        <i class="mdi mdi-buffer bg-danger text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h5 class="font-16">Total Tasks</h5>
+                                    </div>
+                                    <h3 class="mt-4"><%= tasks.length %></h3>
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+<!--                     <div class="row">
+                        <div class="col-xl-8">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+
+                                    <h4 class="mt-0 header-title mb-4">Area Chart</h4>
+
+                                    <div id="morris-area-example" class="morris-charts morris-chart-height"></div>
+
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- end col -->
+
+<!--                         <div class="col-xl-4">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <h4 class="mt-0 header-title mb-4">Donut Chart</h4>
+
+                                    <div id="morris-donut-example" class="morris-charts morris-chart-height"></div>
+
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- end col -->
+<!--                     </div>  -->
+                    <!-- end row -->
+
+                    <div class="row">
+                        <div class="col-xl-4">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <h4 class="mt-0 header-title mb-4">Properties</h4>
+                                <% if(properties.length > 0) { %>
+                                
+                                    <div class="friends-suggestions">
+                                       
+									<% properties.forEach((prop, index) => { %>
+                                    <% if(index < 1 || index == 1){ %>
+                                     <a href="/properties/<%= prop.id %>" class="friends-suggestions-list">
+                                            <div class="border-bottom position-relative">
+                                                <div class="float-left mb-0 mr-3">
+                                                    <img src="<%= prop.img_url %>" alt="" class="rounded-circle thumb-md">
+                                                </div>
+                                                <div class="suggestion-icon float-right mt-2 pt-1">
+                                                    <i class="mdi mdi-check"></i>
+                                                </div>
+
+                                                <div class="desc">
+                                                    <h5 class="font-14 mb-1 pt-2 text-dark"><%= prop.property_name %></h5>
+                                                    <p class="text-muted">3 Flats</p>
+                                                </div>
+                                            </div>
+                                        </a>
+									<% } %>
+                                    <% }) %>
+                                   </div>
+                                
+                                <a class="btn btn-outline-info float-right small mt-3 btn-sm p-1" href="/properties">See All</a>
+                                
+                                <% }else{ %>
+                                <center>
+                                <p class="mt-6">No Property Added</p></center>
+                                <% } %>
+                                </div>
+                            </div>
+                        </div>
+
+                       <div class="col-xl-8">
+                            <div class="card m-b-30">
+                                <div class="card-body">
+                                    <h4 class="mt-0 header-title mb-4">Pending Tasks</h4>
+                                    <div class="table-responsive">
+                                        
+                                        <% if(pending.length > 0){ %>
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Title</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Property</th>
+                                                    <th scope="col">Manager</th>
+                                                    <th scope="col">Flat Number</th>
+                                                    <th scope="col" colspan="2">Date</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                               <% pending.forEach((pend,index, arr) => { %>
+                                               <% if(index < 9){ %>
+                                                <tr>
+                                                    <td><%= pend.title %></td>
+                                                    <td><span class="badge badge-warning"><%= pend.status %></span></td>
+                                                    <td><%= pend.flat.property.property_name %></td>
+                                                    <td>
+                                                        <div>
+                                                            <img src="<%= pend.flat.property.manager.img_url %>" alt="Manager" class="thumb-md rounded-circle mr-2"> <%= pend.flat.property.manager.firstName %> <%= pend.flat.property.manager.lastName %>
+                                                        </div>
+                                                    </td>
+                                                    <td><%= pend.flat.flat_number %></td>
+                                                    <td><%= moment(pend.createdAt).format("L") %></td>
+
+                                                    <td>
+                                                        <div>
+                                                            <a href="/tasks/<%= pend.id %>" class="btn btn-primary btn-sm">View</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <% } }) %>
+                                            </tbody>
+                                        </table>
+                                        
+                                        <% } else { %>
+                                                         <div class="col-md-12 pt-3 mt-4">
+                            <center class="mt-4">
+                            <img src="/image_emp.png" class="img mt-3 mb-1" style="height: 200px">
+                            <p class="pt-1">No Pending Tasks</p>
+                            </center>
+                                        </div>
+                                        <% } %>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                  
+      
+                        
+                    
+                    <!-- END ROW -->
+
+                </div>
+                <!-- container-fluid -->
+
+            </div>
+            <!-- content -->
+        <%- include('footer.ejs') %>

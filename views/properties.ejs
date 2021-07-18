@@ -1,0 +1,241 @@
+<%- include('header.ejs') %>
+
+<%- include('nav.ejs') %>
+    <div class="wrapper">
+                <!-- Start content -->
+                <div class="content">
+                    <div class="container-fluid">
+                        <div class="page-title-box">
+                            <div class="row align-items-center">
+                                <div class="col-sm-6">
+                                    <h4 class="page-title">Properties  <button class="btn btn-warning btn-sm" data-toggle="modal" data-target=".bs-example-modal-center">Add New Property</button></h4>
+                                </div>
+                                <div class="col-sm-6">
+                                    <ol class="breadcrumb float-right">
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Home</a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
+                                        <li class="breadcrumb-item active">Properties</li>
+                                    </ol>
+                                </div>
+                            <div class="col-lg-12 mt-4">
+                            <!-- Card View -->
+                            <div class="row" id="card-view">
+                               
+                               <% if(props.length > 0) { %>
+                            <% props.forEach(prop => { %>
+                             <div class="col-md-3 mx-auto my-auto">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="m-t-20 text-center">
+                                            <center>
+                                                <div class="avatar avatar-image" style="height: 120px; width: 120px; border-radius: 50%; max-width: 100%; background: url('<%= prop.img_url %>'); background-position: center; background-size: cover;">
+                                                    
+                                                </div>
+                                            </center>
+                                                <h4 class="m-t-30"><%= prop.property_name %></h4>
+                                                <p><%= prop.location %></p>
+                                            </div>
+                                            <div class="text-center mt-6">
+                                                <a href="/properties/<%= prop.id %>" class="btn btn-warning">
+                                                    <i class="anticon anticon-mail"></i>
+                                                    <span class="m-l-5">View</span>
+                                                </a>
+                                            </div>
+                                    </div>
+                             </div>
+                            </div>
+                            <% }) %>
+                            <% }else { %>
+                                        <div class="col-md-12 pt-5 mt-5">
+                            <center class="mt-4">
+                            <p class="mt-5 pt-4">No property available</p> <button class="btn btn-warning" data-toggle="modal" data-target=".bs-example-modal-center">Add Property</button>
+                            </center>
+                                        </div>
+                            <% } %>
+                               
+                                        
+                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            </div> <!-- end row -->
+                        </div>
+                        <!-- end page-title -->
+
+                        
+                    </div>
+                    <!-- container-fluid -->
+
+                </div>
+                <!-- content -->
+     <div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <form class="modal-content" onsubmit="sub(event)">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title mt-0">Add Property</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="card-body">
+        
+                                        <p class="sub-title">Complete the form to add a new property</p>
+        
+                                        <div class="form-group row">
+                                            <label for="example-text-input" class="col-sm-12 pb-1 col-form-label">Property Name</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="name" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="location" class="col-sm-12 pb-1 col-form-label">Property Location</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="location" required>
+                                            </div>
+                                        </div>
+                                                                
+                                                <div class="form-group row">
+                                            <label for="mng" class="col-sm-12 pb-1 col-form-label">Property Manager</label>
+                                            <div class="col-sm-12">
+                                               <select class="custom-select" id="mng">
+                                                    <option selected="">Select Property Manager</option>
+                                                    <% managers.forEach(prop => { %>
+                                                <option value="<%= prop.id %>"><%= prop.firstName %> <%= prop.lastName %></option>
+                                                <% }) %>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">                  
+                                      <label for="desc" class="col-sm-12 pb-1 col-form-label">Property description</label>
+                                            <div class="col-sm-12">
+                                                <input class="form-control" type="text" id="desc" required>
+                                            </div>
+                                        </div>
+                                              <div class="form-group row">
+                                            <label for="img" class="col-sm-2 col-form-label">Image</label>
+                                            <div class="col-sm-12">
+                                               <div class="custom-file">
+    											<input type="file" class="custom-file-input" accept="image/*" id="file" required>
+    											<label class="custom-file-label" for="customFile">Choose file</label>
+ 											 </div>
+                                            </div>
+                                        </div>
+                                       <div class="form-group row">
+                                        <div class="col-sm-12" id="err">
+                                                            </div>
+                                                            </div>
+                                                                <div>
+                                                        
+                                                        <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-primary" id="sub_btn">Submit</button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                        </div>
+                                                            </form>
+													<!-- /.modal-content -->
+                                                    </div><!-- /.modal-dialog -->
+                                                </div><!-- /.modal -->
+
+<%- include('footer') %>
+    
+    <script>
+    const sub = (event) => {event.preventDefault()
+    document.getElementById("err").innerHTML = ""
+  	document.getElementById("sub_btn").disabled = true
+    document.getElementById("sub_btn").innerHTML = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading`
+	
+	
+		var fd = new FormData();
+		var file = $('#file')[0].files[0];
+		fd.append('img', file);
+		fd.append('name', document.getElementById("name").value)
+		fd.append('location', document.getElementById("location").value)
+		fd.append('desc', document.getElementById("desc").value)
+    fd.append('mng', document.getElementById("mng").value)
+                            
+                     if(!fd.get("img").type.match(/image-*/)){
+             	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> please selecet an image file`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    }
+       else if(fd.get("img").size > 2000000){
+            	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> File size should not be greater than 2mb`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+    }else{
+      axios.post('/add-property',
+          fd, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+          }
+        ).then(function (data) {
+
+
+ if(data.data.message){
+	  document.getElementById("err").innerHTML = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>Great!</strong> ${data.data.message}`
+      
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+	 location.reload()
+ }
+ else if(data.data.error){
+	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${data.data.error}`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+ }
+          
+        })
+        .catch(err => {
+        if(err.response){
+          if(err.response.status == 401){
+	document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> ${err.response.data.error}`
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+location.reload()
+          }
+          
+        }
+        else if(err){
+    document.getElementById("err").innerHTML = `<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Oh snap!</strong> There Was an error processing your request please retry`
+    
+          
+  	document.getElementById("sub_btn").disabled = false
+    document.getElementById("sub_btn").innerHTML = "Submit"
+          
+        }
+      });
+
+    
+    }
+
+}
+    
+    
+</script>
+<script>
+ function trunc (title) {
+    var length = 20;
+    if (title.length > length) {
+       title = title.substring(0, length)+'...';
+    }
+    return title;
+}
+// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(trunc(fileName));
+});
+</script>
